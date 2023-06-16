@@ -1,0 +1,319 @@
+Multi Threading:
+----------------------
+* Executing several tasks simultaneously is the concept of Multitasking.
+
+* There are 2 types of Multi tasking
+
+1.Process based Multitasking (os level)
+
+2.Thread based Multitasking (program level)
+
+Process based Multitasking:
+---------------------------
+* Executing several tasks simultaneously where each task is seperate independent process is called process based multi tasking.
+
+Eg: While typing python program in the editor we can listen mp3 audio songs from the same system.At the same time we can download a file from the internet. All these tasks are executing simultaneously and independent of each other. Hence it is process based multi tasking.
+
+Note: This type of multi tasking is best suitable at operating system level.
+
+2.Thread Based Multitasking:
+---------------------------
+* Executing several tasks simultaneously where each task is a seperate independent part of the same program is called Thread Based Multi tasking, and each independent part is called a Thread.
+
+* This type of multi tasking is best suitable at programmatic level.
+
+Note: Wheather it is process based or thread based, the main advantage of multi tasking is to improve performance of the system by reducing response time.
+
+* The main important application areas of multi threading are :
+
+1. To implement multimedia graphics
+2. To develop animations.
+3. To develop video games
+4. To develop web  application server.
+
+
+Python provides one inbuilt module "threading" to provide support for developing threads. Hence developing multi threaded programs is very easy in python.
+
+Note: Every python program by default contains one thread which is nothing but MainThread.
+
+Ex1: Write a python program to print name of current executing thread:
+
+import threading
+print("Current Executing thread:",threading.current_thread().getName())
+
+Note: threading module contains class current_thread() which returns the current 
+executing Thread object. On this object if we call getName() method then we will get current executing thread name.
+
+
+The 3 ways of Creating Thread in python:
+------------------------------------------------------------
+
+* We can create a thread in python by using 3 ways
+
+1.creating a Thread without using any class. (pop)
+
+2.Creating a Thread by extending Thread class. (oops with inheritance)
+
+3.Creating a Thread without extending Thread class.(oops without inheritance)
+
+1.Creating a Thread without using any class:
+--------------------------------------------------------------
+
+from threading import *
+
+def display():
+        for i in range(1,11):
+                print("Child Thread ");
+t=Thread(target=display) # creating Thread object
+t.start()
+for i in range(1,11):
+        print("Main Thread ")
+
+-example 2
+
+from threading import *
+
+
+def display():
+        for i in range(1,11):
+                print("Child Thread ");
+
+def show():
+    for i in range(1,11):
+        print("Grant child thread ");
+
+if __name__ == "__main__":
+    t=Thread(target=display)
+    t.start()
+    t1=Thread(target=show)
+    t1.start();
+    for i in range(1,11):
+        print("Main Thread ")
+    
+    
+    
+
+
+2.Creating a Thread by extending Thread class: (oops with inheritance)
+---------------------------------------------------------------------
+
+from threading import *
+
+class MyThread(Thread):
+        def run(self):
+                for i in range(10):
+                        print("Child Thread");
+t=MyThread()
+t.start()
+for i in range(10):
+        print("Main Thread");
+
+
+3.Creating a Thread without extending Thread class:
+---------------------------------------------------
+from threading import *
+class Test:
+        def display(self):
+                for i in range(10):
+                        print("Child Thread");
+obj=Test()
+t=Thread(target=obj.display)
+t.start()
+
+for i in range(10):
+        print("Main Thread");
+
+
+
+
+Thread Life cycle:
+-------------------
+start()
+run()
+sleep(5) - interval
+
+Single Threading:
+-----------------
+import threading,time
+
+def Test(n):
+    i=1
+    while i<=n:
+        print("Main Thread =",i);
+        i=i+1
+        time.sleep(5)
+
+
+if __name__ == "__main__":
+    t1 = threading.Thread(target=Test,args=(5,))
+    t1.start()
+    t1.join()
+
+--MultiThreading program
+
+import threading,time
+
+
+def Test(n):
+    i=1
+    while i<=n:
+        print("Main Thread =",i);
+        i=i+1
+        time.sleep(5)
+
+def Demo(n):
+    i=1
+    while i<=n:
+        print("Child Thread =",i);
+        i=i+1
+        time.sleep(5)
+
+
+if __name__ == "__main__":
+    t1 = threading.Thread(target=Test,args=(5,))
+    t2=threading.Thread(target=Demo,args=(5,))
+    t1.start()
+    t2.start()
+
+Join() is used to wait for another thread.
+---------------------------------------
+
+Join() example
+
+import threading,time
+
+
+def Test(n):
+    i=1
+    while i<=n:
+        print("Main Thread =",i);
+        i=i+1
+        time.sleep(5)
+
+def Demo(n):
+    i=1
+    while i<=n:
+        print("Child Thread =",i);
+        i=i+1
+        time.sleep(5)
+
+
+if __name__ == "__main__":
+    t1 = threading.Thread(target=Test,args=(5,))
+    t2=threading.Thread(target=Demo,args=(5,))
+    t1.start()
+    t1.join()
+    t2.start()
+    t2.join()
+
+
+Timer program
+--------------
+
+import time, threading
+def foo():
+    print(time.ctime())
+    threading.Timer(1, foo).start()
+
+foo()
+
+
+--Example2
+
+
+from threading import Timer
+from time import sleep
+
+def hello():
+    print ("hello, world")
+    t = Timer(3,hello)
+    t.start()
+
+t = Timer(3, hello)
+t.start() # after 3 seconds, "hello, world" will be printed
+
+# timer will wake up ever 3 seconds, while we do something else
+while True:
+    print ("do something else")
+    sleep(10)
+
+--how to stop the thread?
+
+import threading, time
+
+def Thread_Function(running):
+    while running.is_set():
+        print('running')
+        time.sleep(1)
+
+if __name__ == '__main__':
+    running = threading.Event()
+    running.set()
+
+    thread = threading.Thread(target=Thread_Function, args=(running,))
+    thread.start()
+
+    time.sleep(10)
+    print('Event running.clear()')
+    running.clear()
+
+    print('Wait until Thread is terminating')
+    thread.join()
+    print("EXIT __main__")
+
+
+c:\users\user> pip install schedule
+
+First.py
+
+import schedule
+import time
+ 
+# Functions setup
+def sudo_placement():
+    print("Get ready for Sudo Placement")
+ 
+def good_luck():
+    print("Good Luck for Test")
+ 
+def work():
+    print("Study and work hard")
+ 
+def bedtime():
+    print("It is bed time go rest")
+     
+def test():
+    print("Shaurya says Good")
+ 
+# Task scheduling
+# After every 1mins test() is called.
+schedule.every(1).minutes.do(test)
+ 
+# After every hour test() is called.
+schedule.every().hour.do(test)
+ 
+# Every day at 12am or 00:00 time bedtime() is called.
+schedule.every().day.at("00:00").do(bedtime)
+ 
+# After every 5 to 10mins in between run work()
+schedule.every(5).to(10).minutes.do(work)
+ 
+# Every monday good_luck() is called
+schedule.every().monday.do(good_luck)
+ 
+# Every tuesday at 18:00 sudo_placement() is called
+schedule.every().tuesday.at("18:00").do(sudo_placement)
+ 
+# Loop so that the scheduling task
+# keeps on running all time.
+while True:
+ 
+    # Checks whether a scheduled task
+    # is pending to run or not
+    schedule.run_pending()
+    time.sleep(1)
+
+  
+
+
+-

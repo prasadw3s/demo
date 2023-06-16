@@ -1,0 +1,326 @@
+Python File Handling:
+---------------------
+Types of file:
+--------------
+1.Program file (.py, .java,.html)
+2.Data File (.dat,.txt,.doc)
+
+We can use File handling to read and write data to and from the file.
+
+Opening a file
+
+Before reading/writing you first need to open the file. 
+Syntax of opening a file is.
+
+f = open(filename, mode)
+
+Closing a file
+
+After you have finished reading/writing to the file you need to close the file using close()  method 
+
+f.close()  # where f is a file pointer
+
+Different modes of opening a file are:
+
+Modes 		Description
+"r"  	 Open a file for read only
+
+"w"  	 Open a file for writing. If file already exists its data will be cleared before opening.
+ Otherwise new file will be created
+
+"a"  	 Opens a file in append mode i.e to write a data to the end of the file
+
+"wb"  	 Open a file to write in binary mode
+
+"rb"  	 Open a file to read in binary mode
+
+Writing data to the file
+-------------------------
+Example
+
+f=open("c:\\data\\Test.txt","w")
+sname=input("Enter your name:")
+sno=input("Enter sno")
+mark=input ("Enter mark")
+s=sname+"    "+sno+"    "+mark
+f.write(s);
+print("File created")
+f.close()
+f=open("c:\\data\\Test.txt","r")
+print("The contents of the file")
+print(f.read())
+f.close();
+
+--Method 2
+
+f=open("c:\\data\\Test.txt","w")
+f.write("sname    sno    mark \n");
+choice="y"
+
+while(choice=="y"):
+    sname=input("Enter your name:")
+    sno=input("Enter sno")
+    mark=input ("Enter mark")
+    s=sname+"    "+sno+"    "+mark+"\n"
+    f.write(s);
+    choice=input("Do you want continue y/n")
+    if(choice=="n"):
+        break;
+
+print("File created")
+f.close()
+f=open("c:\\data\\Test.txt","r")
+print("The contents of the file")
+#print("sname    sno     mark")
+print(f.read())
+f.close();
+
+\ - escape sequence
+
+Example1
+--------
+
+f = open('myfile.txt', 'w')    
+f.write('this first line\n')  
+f.write('this second line\n')
+print("1 file created")
+f.close() 
+
+Reading data from the file:
+---------------------------
+f = open('myfile.txt', 'r')
+print(f.read())
+f.close()
+
+
+# How to write and read from network file path? (FAQ)
+
+syntax:
+
+//Hostname/SharedFoldername/filename.txt
+
+
+
+f = open('//DESKTOP-9BHI97G/data/test1.txt','w')
+s1=input("Enter any string:")
+f.write(s1);
+f.close()
+
+f = open('//DESKTOP-9BHI97G/data/test1.txt')
+print(f.read())
+f.close()
+      
+
+      
+
+
+# Appending data to the file:
+----------------------------
+
+f = open('myfile.txt', 'a')
+f.write("this is third line\n")
+f.close()
+               
+
+# Looping through the data using for loop
+
+f = open('myfile.txt', 'r')
+for line in f:
+    print(line)
+f.close()
+
+
+# How to write and Read the data file?
+
+def main():
+     f= open("abc.txt","w")
+     for i in range(10):
+         f.write("This is line %d\r\n" % (i+1))
+     f.close()   
+   #  Open the file back and read the contents
+     f=open("abc.txt", "r")
+     if f.mode == 'r':
+         contents =f.read()
+         print (contents)
+
+     
+if __name__== "__main__":
+  main()
+
+#  How to overwrite a particular line in Python (faq)?
+
+def replace_line(file_name, line_num, text):
+    f= open("abc.txt","w")
+    for i in range(10):
+        f.write("This is line %d\r" % (i+1))
+    f.close()
+    
+    lines = open(file_name, 'r').readlines()
+    lines[line_num -1] =  text
+    out = open(file_name, 'w')
+    out.writelines(lines)
+    out.close()
+    f=open(file_name,"r")
+    print(f.read())
+
+
+if __name__=="__main__":
+    lineno=int(input("Enter line number:"))
+    text=input("Enter any string:")
+    text=text+"\n"
+    replace_line("abc.txt",lineno,text)
+
+# How to rename the file?
+
+os module Methods
+--------------------
+os.rename()
+os.remove()
+os.mkdir()
+os.getcwd()
+os.rmdir()
+
+import os
+os.rename("myfile.txt","myfile1.txt")
+print ("File Renamed")
+
+
+# How to delete the file?
+
+import  os
+os.remove("cba.py")
+print("File deleted");
+
+
+# How to create a new Directory
+import os
+os.mkdir("test")
+print("Directory Created Successfully")
+
+
+
+The getcwd Method
+-----------------
+
+# The getcwd method displays the current working directory.
+# How to create a new Directory
+import os
+print(os.getcwd())
+
+
+# The rmdir MethodThe rmdir method deletes the directory, 
+import os
+os.rmdir("c:\\python\\test")
+print ("Directory deleted")
+
+
+The With Statement:
+------------------
+
+* The with statement can be used while opening a file. 
+
+* We can use this to group file operation statements within a block.
+
+* The Advantage of with statement is it will take care closing of file, after completing all operations automatically even in the case of exceptions and we are not required to close explicitly.
+
+
+with open ("abc.txt","w") as f:
+    f.write("God is Great\n")
+    f.write("Time is gold\n")
+    f.write("Have nice day\n")
+    print("Inside with statement  File Closed",f.closed) # false
+
+# verification 
+print("Outside With statement File Closed",f.closed) # true
+
+
+
+Shutil Module:
+--------------
+* The shutil module helps you automate copying files and directories.
+
+* This saves the steps of opening, reading, writing and closing files when there is no actual processing. 
+
+* It is a utility module which can be used to accomplish tasks, such as: copying, moving, or removing directory trees 
+
+--example
+# How to Moving from one text file to another 
+
+import shutil
+import os
+source = "c:/data/Test.txt"
+destination = "c:/data/cars/Test1.txt"
+shutil.copy(source,destination)
+os.remove(source)
+print("file moved")
+
+
+# How to Copying from one text file to another file without using shutil module?
+
+f = open('c:/data/myfile.txt',"r")
+f1 = open('c:/data/abc1.txt', 'w')
+for line in f.readlines():
+    f1.write(line)
+print("file copied")
+
+f1.close()
+f.close()
+
+
+# Python program to copy odd lines of one file to other file
+
+fn = open('c:\\data\\test1.txt', 'r') 
+  
+# open other file in write mode 
+fn1 = open('c:\\data\\cars\\odd.txt', 'w') 
+  
+# read the content of the file line by line 
+cont = fn.readlines()
+print("total lines=",len(cont))
+
+for i in range(0, len(cont)): 
+    if(i % 2 == 0): 
+        fn1.write(cont[i]) 
+    else: 
+        pass
+  
+# close the file 
+fn1.close() 
+  
+# open file in read mode 
+fn1 = open('c:\\data\\cars\\odd.txt', 'r') 
+  
+# read the content of the file 
+cont1 = fn1.read() 
+  
+# print the content of the file 
+print(cont1) 
+  
+# close all files 
+fn.close() 
+fn1.close() 
+
+
+
+
+# Write a program to check whether the given file exists or not .if it is available then print its content?
+
+import os,sys
+fname=input("Enter filename:")
+if os.path.isfile(fname):
+    print("File exists:",fname)
+    f=open(fname,"r")
+else:
+    print("File does not exists:",fname)
+    sys.exit(0)
+print("The Contents of file is:")
+data=f.read()
+print(data)
+
+Note: sys.exit(0) ==> To exit system without executing rest of the program.
+
+argument represents status code 0 means normal termination and it is the default value.
+
+
+	
+
